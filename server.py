@@ -9,7 +9,7 @@ from sklearn.preprocessing import MinMaxScaler
 
 app = Flask(__name__)
 
-model = tf.keras.models.load_model('mdoels\model_700_r.h5')
+model = tf.keras.models.load_model('./mdoels/model_700_r.h5')
 
 
 @app.route('/')
@@ -66,3 +66,8 @@ def predict():
     # Take the first value of prediction
     output = prediction[0]
     return jsonify(output)
+
+
+if __name__ == '__main__':
+    print('Starting Python Flask Server For Load Prediction')
+    app.run(port=5000, debug=True, host='0.0.0.0')
