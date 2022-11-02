@@ -1,16 +1,9 @@
 import tensorflow as tf
-import matplotlib.pyplot as plt
 # import seaborn as sns
 from scipy import stats
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
-from collections import defaultdict as dd
-import os
 from sklearn.preprocessing import MinMaxScaler
-
-plt.style.use('seaborn-whitegrid')
-
 # data = {
 #     'a1': [-3.93468,
 #             2.40285,
@@ -73,7 +66,6 @@ sensor_readings
 sensor_readings.shape
 
 data = []
-labels = []
 for (load,sensor),g in sensor_readings.groupby(['load','sensor']):
     # print("load: {0} for sensor: {1}".format(load,sensor))
     # print("g.reading.values:",g.reading.values)
@@ -95,13 +87,10 @@ for (load,sensor),g in sensor_readings.groupby(['load','sensor']):
             'skew': stats.skew(s),
             'moment': stats.moment(s),
         })
-        # labels.append(int(state=='b'))  # positive label indicates fault
-# print("shape of original data: ", sensor_readings.shape)
-# print("shape of data after splitting: ", len(data))
 df_data = pd.DataFrame(data)
 # print(df_data)
 data = df_data.values
-cols_to_scale = ['load','mean','std','kurt','skew','moment']
+cols_to_scale = ['load', 'mean', 'std', 'kurt', 'skew', 'moment']
 scaler = MinMaxScaler()
 df_data[cols_to_scale] = scaler.fit_transform(df_data[cols_to_scale])
 
