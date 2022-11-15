@@ -6,7 +6,7 @@ import pickle
 
 app = Flask(__name__)
 
-filename = 'mdoels\GaussianNB_model.sav'
+filename = './mdoels/GaussianNB_model.sav'
 loaded_model = pickle.load(open(filename, 'rb'))
 
 @app.route('/')
