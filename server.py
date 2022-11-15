@@ -83,17 +83,22 @@ def Feature_create(data):
 def predict():
     # get the data from the POST request.
     data = request.get_json(force=True)
-    df = pd.DataFrame.from_dict(data, orient='index').T
-    df.columns = ['S1', 'S2', 'S3', 'S4','Load']
-
+    dataF = {
+        "S1": data['a1'],
+        "S2": data['a2'],
+        "S3": data['a3'],
+        "S4": data['a4'],
+    }
+    df = pd.DataFrame.from_dict(dataF, orient='index').T
+    df.columns = ['S1', 'S2', 'S3', 'S4']
+    # print(df)
     df_data = Feature_create(df)
-    df["Load"] = [data.get("load")]*df_data.shape[0]
+    df_data["Load"] = data.get("load")
+    # print(df_data)
     # make prediction using model loaded from disk as per the data.
-    prediction = model.predict(df_data.values)
-
-    # Take the first value of prediction
-    output = prediction[0]
-    return jsonify(output)
+    prediction = loaded_model.predict(df_data)
+    classes  = ['Healthy', 'Broken']
+    return jsonify(classes[prediction[0]])
 
 
 if __name__ == '__main__':
